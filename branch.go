@@ -1,4 +1,4 @@
-package branch
+package branchdemo
 
 // LessMore returns the number of ints less than, and more than the pivot
 func LessMore(ints []int, pivot int) (int, int) {
