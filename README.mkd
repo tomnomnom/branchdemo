@@ -2,3 +2,26 @@
 
 Some example code to demonstrate the effects a CPU's [branch predictor](https://en.wikipedia.org/wiki/Branch_predictor) can
 have on performance.
+
+## Example Runs
+
+Intel(R) Core(TM) i7-2670QM CPU @ 2.20GHz; go version go1.4.2 linux/amd64 (laptop):
+
+    tom@megatron:~/src/github.com/tomnomnom/branchdemo (master)▶ go test -bench .
+    PASS
+    BenchmarkLessMoreUnsorted 1000000    1714 ns/op
+    BenchmarkLessMoreSorted   1000000    1015 ns/op
+
+Intel(R) Xeon(R) CPU E5-2630L v2 @ 2.40GHz; go version go1.4.2 linux/amd64 (Digital Ocean, $5/mo instance):
+
+    tom@sh:~/src/github.com/tomnomnom/branchdemo (master)▶ go test -bench .
+    PASS
+    BenchmarkLessMoreUnsorted 1000000    2396 ns/op
+    BenchmarkLessMoreSorted   1000000    1488 ns/op
+
+AMD Turion(tm) II Neo N54L Dual-Core Processor; go version go1.4.2 linux/amd64 (HP Proliant N54L):
+
+    tom@nabu:~/src/github.com/tomnomnom/branchdemo (master)▶ go test -bench .
+    PASS
+    BenchmarkLessMoreUnsorted 200000     6121 ns/op
+    BenchmarkLessMoreSorted   500000     2710 ns/op
