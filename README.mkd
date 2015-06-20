@@ -1,0 +1,4 @@
+# Branch Predictor Demo
+
+Some example code to demonstrate the effects a CPU's [branch predictor](https://en.wikipedia.org/wiki/Branch_predictor) can
+have on performance.
