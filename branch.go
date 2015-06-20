@@ -1,16 +1,14 @@
 package branchdemo
 
-// LessMore returns the number of ints less than, and more than the pivot
-func LessMore(ints []int, pivot int) (int, int) {
-	less, more := 0, 0
+// CountInt returns the number of instances of search in ints
+func CountInt(search int, ints []int) int {
+	count := 0
 
 	for _, num := range ints {
-		if num < pivot {
-			less++
-		} else if num > pivot {
-			more++
+		if num == search {
+			count++
 		}
 	}
 
-	return less, more
+	return count
 }

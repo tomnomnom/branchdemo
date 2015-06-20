@@ -1,53 +1,46 @@
 # Branch Predictor Demo
 
-Some (somewhat contrived) example code to demonstrate the effects a CPU's [branch predictor](https://en.wikipedia.org/wiki/Branch_predictor) can
+Some example code to demonstrate the effects a CPU's [branch predictor](https://en.wikipedia.org/wiki/Branch_predictor) can
 have on performance.
 
-The test iterates through a slice of random integers, tracking how many are less than or greater than a given pivot number.
+The example function counts the occurences of an integer in a slice of integers.
 
 ```go
-func LessMore(ints []int, pivot int) (int, int) {
-	less, more := 0, 0
+func CountInt(search int, ints []int) int {
+	count := 0
 
 	for _, num := range ints {
-		if num < pivot {
-			less++
-		} else if num > pivot {
-			more++
+		if num == search {
+			count++
 		}
 	}
 
-	return less, more
+	return count
 }
 ```
 
-When the integers are unsorted the CPU's branch predictor is unable to reliably predict which branch the code will follow, incurring
-a penalty each time the prediction is wrong. When the integers are sorted the branch predictor learns to follow the 'less than'
-branch initially, and then - once the integers become greater than the provided pivot - to follow the 'greater than' branch.
+When the provided integers are unsorted, the CPU's branch predictor is unable to reliably predict if the `num == search`
+branch of the code will be followed on each iteration, incurring a penalty each time the prediction is wrong.
+However, when the integers are sorted: every occurrence of the `num == search` branch being followed will happen consecutively,
+allowing the branch predictor to be correct more often.
 
-Note that the 'sorted' benchmark includes the time taken to sort the integers (once), and is therefore doing slightly more work for
-the first iteration.
+The included benchmarks count the occurences of the number 7 in a slice of 10,000 random integers between 0 and 100.
+
+Note that the 'sorted' benchmark includes the time taken to sort the integers (once), and is therefore doing slightly more work.
 
 
-## Example Runs
+## Example Benchmark Runs
 
 Intel(R) Core(TM) i7-2670QM CPU @ 2.20GHz; go version go1.4.2 linux/amd64 (Laptop):
 
     tom@megatron:~/src/github.com/tomnomnom/branchdemo (master)▶ go test -bench .
     PASS
-    BenchmarkLessMoreUnsorted 1000000    1714 ns/op
-    BenchmarkLessMoreSorted   1000000    1015 ns/op
+    BenchmarkCountIntUnsorted  200000      8874 ns/op
+    BenchmarkCountIntSorted    200000      6778 ns/op
+    ok  github.com/tomnomnom/branchdemo 3.301s
 
 Intel(R) Xeon(R) CPU E5-2630L v2 @ 2.40GHz; go version go1.4.2 linux/amd64 (Digital Ocean, $5/mo instance):
 
-    tom@sh:~/src/github.com/tomnomnom/branchdemo (master)▶ go test -bench .
-    PASS
-    BenchmarkLessMoreUnsorted 1000000    2396 ns/op
-    BenchmarkLessMoreSorted   1000000    1488 ns/op
 
 AMD Turion(tm) II Neo N54L Dual-Core Processor; go version go1.4.2 linux/amd64 (HP Proliant N54L):
 
-    tom@nabu:~/src/github.com/tomnomnom/branchdemo (master)▶ go test -bench .
-    PASS
-    BenchmarkLessMoreUnsorted 200000     6121 ns/op
-    BenchmarkLessMoreSorted   500000     2710 ns/op
