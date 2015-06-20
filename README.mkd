@@ -37,10 +37,21 @@ Intel(R) Core(TM) i7-2670QM CPU @ 2.20GHz; go version go1.4.2 linux/amd64 (Lapto
     PASS
     BenchmarkCountIntUnsorted  200000      8874 ns/op
     BenchmarkCountIntSorted    200000      6778 ns/op
-    ok  github.com/tomnomnom/branchdemo 3.301s
+    ok      github.com/tomnomnom/branchdemo 3.301s
 
 Intel(R) Xeon(R) CPU E5-2630L v2 @ 2.40GHz; go version go1.4.2 linux/amd64 (Digital Ocean, $5/mo instance):
 
+    tom@sh:~/src/github.com/tomnomnom/branchdemo (master)▶ go test -bench .
+    PASS
+    BenchmarkCountIntUnsorted  200000      10605 ns/op
+    BenchmarkCountIntSorted    200000      7926 ns/op
+    ok      github.com/tomnomnom/branchdemo 3.907s
 
 AMD Turion(tm) II Neo N54L Dual-Core Processor; go version go1.4.2 linux/amd64 (HP Proliant N54L):
+
+    tom@nabu:~/src/github.com/tomnomnom/branchdemo (master)▶ go test -bench .
+    PASS
+    BenchmarkCountIntUnsorted  100000      23593 ns/op
+    BenchmarkCountIntSorted    100000      22782 ns/op
+    ok      github.com/tomnomnom/branchdemo 5.131s
 
