@@ -1,11 +1,37 @@
 # Branch Predictor Demo
 
-Some example code to demonstrate the effects a CPU's [branch predictor](https://en.wikipedia.org/wiki/Branch_predictor) can
+Some (somewhat contrived) example code to demonstrate the effects a CPU's [branch predictor](https://en.wikipedia.org/wiki/Branch_predictor) can
 have on performance.
+
+The test iterates through a slice of random integers, tracking how many are less than or greater than a given pivot number.
+
+```go
+func LessMore(ints []int, pivot int) (int, int) {
+	less, more := 0, 0
+
+	for _, num := range ints {
+		if num < pivot {
+			less++
+		} else if num > pivot {
+			more++
+		}
+	}
+
+	return less, more
+}
+```
+
+When the integers are unsorted the CPU's branch predictor is unable to reliably predict which branch the code will follow, incurring
+a penalty each time the prediction is wrong. When the integers are sorted the branch predictor learns to follow the 'less than'
+branch initially, and then - once the integers become greater than the provided pivot - to follow the 'greater than' branch.
+
+Note that the 'sorted' benchmark includes the time taken to sort the integers (once), and is therefore doing slightly more work for
+the first iteration.
+
 
 ## Example Runs
 
-Intel(R) Core(TM) i7-2670QM CPU @ 2.20GHz; go version go1.4.2 linux/amd64 (laptop):
+Intel(R) Core(TM) i7-2670QM CPU @ 2.20GHz; go version go1.4.2 linux/amd64 (Laptop):
 
     tom@megatron:~/src/github.com/tomnomnom/branchdemo (master)▶ go test -bench .
     PASS
